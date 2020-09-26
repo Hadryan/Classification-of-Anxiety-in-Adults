@@ -1,0 +1,76 @@
+%% Preprocessing Data Analysis
+
+%% Anderson-Darling Test
+% We did the Anderson Darling Normality Test for the given data.
+% Point to Note: 
+% *The test rejects the hypothesis of normality when the p-value is less than or equal to 0.05.  
+% *Failing the normality test allows you to state with 95% confidence the data does not fit the normal distribution.
+% *h = adtest(x) returns a test decision for the null hypothesis that the data in vector x is from a population with a normal distribution, using the Anderson-Darling test.
+
+%% Mean Data 
+
+ND_MEAN = [39.107625 51.641825 22.233385000000002 51.07835 78.723775 68.97315 19.3851 466.978775 21.72075 82.49204999999999 18.470275 25.884875 21.444875 78.9418475 48.49325 47.4387 68.38765 51.146685 68.09320000000001 48.95401 49.196625 33.759525 76.2897 27.04085 143.03075 87.369275 59.655030000000004 70.296575 116.2209125 1132.049275 69.125275 84.35995]; % ND MEAN
+DN_MEAN = [1200825225000000.0 1491600325000000.0 1126538775000000.0 829791825000000.0 1611930500000000.0 2518534500000000.0 3756871300000000.0 1194909925000000.0 3600261500000000.0 1086944800000000.0 952141725000000.0 1301702750000000.0 560733500000000.0 2179742625000000.0 1227839000000000.0 2522286775000000.0 9953312500000000.0 1108543500000000.0 4165250500000000.0 1142944800000000.0 1326970325000000.0 2132297250000000.0 1339274075000000.0 1170444850000000.0 1826885350000000.0 750613300000000.0 3275640450000000.0 1351984750000000.0 1003462250000000.0 1339779250000000.0 1220302875000000.0 1039590250000000.0]; % DN MEAN
+
+%% Media Data
+ND_MEDIAN = [20.638999999999996 28.5225 19.507 33.1455 19.795 23.0805 18.9565 18.665 17.5335 18.516999999999996 17.3965 19.8005 19.656999999999996 21.755 24.262 24.490000000000002 20.497 20.6995 16.5805 21.248 23.2765 17.915999999999997 29.575 24.345 43.1075 30.775 20.7765 29.5435 31.881999999999998 24.665 24.8375 30.815]; % ND MEDIAN
+DN_MEDIAN = [618750000000000.0 699105000000000.0 488345000000000.0 451070000000000.0 790595000000000.0 394430000000000.0 349610000000000.0 583735000000000.0 433155000000000.0 532420000000000.0 471715000000000.0 577690000000000.0 268215000000000.0 614090000000000.0 540095000000000.0 420725000000000.0 674480000000000.0 416630000000000.0 477835000000000.0 287145000000000.0 464020000000000.0 423660000000000.0 445315000000000.0 692280000000000.0 556815000000000.0 405835000000000.0 534905000000000.0 456400000000000.0 512215000000000.0 554710000000000.0 304495000000000.0 607085000000000.0]; % DN MEDIAN
+%% ND MEAN Anderson Test, Histogram, Boxplot
+figure(1)
+h1 = histogram(ND_MEAN); % Histogram for ND MEAN
+title('ND MEAN');
+
+figure(2)
+boxplot(ND_MEAN)
+title('Normalize then Denoises Mean Values')
+
+[a1,p1] = adtest(ND_MEAN) % Anderson-Darling Test, a1 is logical value
+
+
+
+%% DN MEAN Anderson Test, Histogram, Boxplot
+figure(3)
+h2 = histogram(DN_MEAN);% Histogram for DN MEAN
+title('DN MEAN');
+
+figure(4)
+boxplot(DN_MEAN)
+title('Denoises then Normalize Mean Values')
+
+[a2,p2] = adtest(DN_MEAN) % Anderson-Darling Test, where a2 is logical value
+
+%% ND MEDIAN Anderson Test, Histogram, Boxplot
+figure(5)
+h3 = histogram(ND_MEDIAN);% Histogram for ND MEDIAN
+title('ND MEDIAN');
+
+figure(6)
+boxplot(ND_MEDIAN)
+title('Normalize then Denoises Median Values')
+
+[a3,p3] = adtest(ND_MEDIAN) % Anderson-Darling Test, a3 is logical value
+
+%% DN MEDIAN Anderson Test, Histogram, Boxplot
+figure(7)
+h4 = histogram(DN_MEDIAN);% Histogram for DN MEDIAN
+title('DN MEDIAN');
+
+
+figure(8)
+boxplot(DN_MEDIAN)
+title('Denoises then Normalize Median Values')
+[a4,p4] = adtest(DN_MEDIAN) % Anderson-Darling Test, a4 is logical value
+
+%% Mann Whitney U Test : ND-DN Mean
+
+[p_mean,h_mean,stats_mean] = ranksum(ND_MEAN,DN_MEAN)
+
+%% Mann Whitney U Test : ND-DN Median
+
+[p_median,h_median,stats_median] = ranksum(ND_MEDIAN,DN_MEDIAN)
+
+%% Two sample t-test of Median
+
+[flag_ttest,p_ttest_median]= ttest2(ND_MEDIAN,DN_MEDIAN)
+
+close all
